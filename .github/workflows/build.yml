@@ -1,0 +1,30 @@
+name: Build
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        run: npm install
+      - name: Build
+        run: npm run ci
+      - name: Publish coverage
+        run: npm run coveralls
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Parse changelog
+        uses: ./
+        id: changelog
+      - name: Display changelog
+        run: |
+          echo "Version: ${{ steps.changelog.outputs.version }}"
+          echo "Date: ${{ steps.changelog.outputs.date }}"
+          echo "Status: ${{ steps.changelog.outputs.status }}"
+          echo "Description: ${{ steps.changelog.outputs.description }}"

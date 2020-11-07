@@ -13,7 +13,17 @@ jobs:
       - name: Build
         run: npm run ci
       - name: Publish coverage
+        if: ${{ github.ref == 'refs/heads/master' }}
         run: npm run coveralls
+      - name: Publish dist
+        if: ${{ github.ref == 'refs/heads/master' }}
+        shell: bash
+        env:
+          GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          git commit -am "Publish dist" -m "[ci-skip]"
+          https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
   test:
     runs-on: ubuntu-latest
     steps:

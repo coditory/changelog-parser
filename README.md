@@ -2,19 +2,22 @@
 [![GitHub Action Build](https://github.com/coditory/changelog-parser-action/workflows/Build/badge.svg)](https://github.com/coditory/changelog-parser-action/actions?query=workflow%3ABuild+branch%3Amaster)
 [![Coverage Status](https://coveralls.io/repos/github/coditory/changelog-parser-action/badge.svg?branch=master)](https://coveralls.io/github/coditory/changelog-parser-action?branch=master)
 
-> A GitHub action that parses your `CHANGELOG.md` written in [Keep a Changelog format](https://github.com/olivierlacan/keep-a-changelog).
+> A GitHub action that parses `CHANGELOG.md` written in [Keep a Changelog format](https://github.com/olivierlacan/keep-a-changelog).
 
 ## Usage
 
 ### Inputs
-- `path` (optional) - Path to the CHANGELOG file. If path is not specified tha ection will look for a changelog is standard locations (`changelog.md`, `CHANGELOG.md`, ...).
-- `version` (optional) - Version of the changelog entry to parse. By default the last released version is used.
+- `path` (optional) - Path to the changelog file.
+  - By default action will look for a changelog is standard locations (`changelog.md`, `CHANGELOG.md`, ...).
+- `version` (optional) - Version of the changelog entry to parse.
+  - By default the last released version is used. If changelog has no released versions, action will return an empty entry (no error raised).
+  - When version is defined but not available in the changelog then an error is raised.
 
 ### Outputs
-- `version` - Version of the log entry found. Ex: `2.0.0`.
-- `date` - Release date of the log entry found. Ex: `2020-08-22`.
-- `status` - Status of the log entry found (`prereleased`, `released`, `unreleased`).
-- `description` - Description text of the log entry found.
+- `version` - Version from the changelog entry. Example: `2.0.0`.
+- `date` - Release date from the changelog entry. Example: `2020-08-22`.
+- `status` - Status from the changelog entry. One of: (`prereleased`, `released`, `unreleased`).
+- `description` - Content from the changelog entry found.
 
 ### Example
 Typical `README.md` file:
@@ -64,9 +67,9 @@ description: "### Changed\n- Fixed small bug"
 
 ### Trigger release process from CHANGELOG.md
 
-In this example release steps are triggered when:
+Release steps are triggered when:
 - it's a master branch
-- changelog has different version then last publish `v*` tag
+- changelog has different latest version then last published tag matching `v*`
 
 This is just a sample action that uses java with gradle.
 
@@ -112,7 +115,7 @@ jobs:
 
 ### Create [GitHub Release](https://docs.github.com/en/free-pro-team@latest/github/administering-a-repository/managing-releases-in-a-repository) on a new tag
 
-This action creates [GitHub Release](https://docs.github.com/en/free-pro-team@latest/github/administering-a-repository/managing-releases-in-a-repository) on new tag `v*`.
+This action simply creates a [GitHub Release](https://docs.github.com/en/free-pro-team@latest/github/administering-a-repository/managing-releases-in-a-repository) on a newly pushed tag matching `v*`.
 
 ```yaml
 name: Create Release

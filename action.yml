@@ -7,9 +7,11 @@ inputs:
   path:
     description: 'Path to the CHANGELOG file. By default standard changelog locations are used.'
     required: false
+    default: ''
   version:
     description: 'Version of the changelog entry. By default the last released version is used.'
     required: false
+    default: ''
 outputs:
   version:
     description: 'Version from the changelog entry'

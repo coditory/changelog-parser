@@ -127,12 +127,18 @@ class ChangelogParser {
         const realesedHeaderMatch = header.match(ChangelogParser.realesedVersionRegex);
         if (realesedHeaderMatch != null) {
             const version = realesedHeaderMatch[1];
-            const suffix = (_a = realesedHeaderMatch[2]) !== null && _a !== void 0 ? _a : '';
-            const date = realesedHeaderMatch[3];
-            const status = (suffix === null || suffix === void 0 ? void 0 : suffix.startsWith('-')) === true
+            const versionMajor = realesedHeaderMatch[2];
+            const versionMinor = realesedHeaderMatch[3];
+            const versionPatch = realesedHeaderMatch[4];
+            const versionSuffix = (_a = realesedHeaderMatch[5]) !== null && _a !== void 0 ? _a : '';
+            const date = realesedHeaderMatch[6];
+            const status = (versionSuffix === null || versionSuffix === void 0 ? void 0 : versionSuffix.startsWith('-')) === true
                 ? 'prerelease'
                 : 'release';
-            return { version: version + suffix, status, date, description };
+            return {
+                version: version + versionSuffix,
+                versionMajor, versionMinor, versionPatch, status, date, description
+            };
         }
         const unreleasedHeaderMatch = header.match(ChangelogParser.unreleasedHeaderRegex);
         if (unreleasedHeaderMatch != null) {
@@ -148,7 +154,7 @@ class ChangelogParser {
 }
 exports.ChangelogParser = ChangelogParser;
 // https://regexr.com/5fp7a
-ChangelogParser.realesedVersionRegex = /^\[? *([0-9]+\.[0-9]+\.[0-9]+)((?:-+.)[0-9A-Za-z-.+_]+)?(?: *\])?(?: *\( *[^)]* *\))?(?: +- +([0-9-]+)?)?/;
+ChangelogParser.realesedVersionRegex = /^\[? *(([0-9]+)\.([0-9]+)\.([0-9]+))((?:-+.)[0-9A-Za-z-.+_]+)?(?: *\])?(?: *\( *[^)]* *\))?(?: +- +([0-9-]+)?)?/;
 ChangelogParser.unreleasedHeaderRegex = /^\[? *unreleased *\]?(?: *\( *[^)]* *\))?/i;
 ChangelogParser.linkLabelRegex = /^\[ *[^\]]+ *\]:.+/;
 
@@ -275,21 +281,27 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__webpack_require__(186));
 const Action_1 = __webpack_require__(4);
 function run() {
-    var _a, _b, _c, _d, _e, _f, _g, _h;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p;
     return __awaiter(this, void 0, void 0, function* () {
         const path = core.getInput('path') || undefined;
         const version = core.getInput('version') || undefined;
         core.startGroup('Parse CHANGELOG');
         const entry = yield new Action_1.Action().run(version, path);
         core.info(`Version: "${(_a = entry === null || entry === void 0 ? void 0 : entry.version) !== null && _a !== void 0 ? _a : ""}"`);
-        core.info(`Date: "${(_b = entry === null || entry === void 0 ? void 0 : entry.date) !== null && _b !== void 0 ? _b : ""}"`);
-        core.info(`Status: "${(_c = entry === null || entry === void 0 ? void 0 : entry.status) !== null && _c !== void 0 ? _c : ""}"`);
-        core.info(`Description:\n${(_d = entry === null || entry === void 0 ? void 0 : entry.description) !== null && _d !== void 0 ? _d : ""}\n`);
+        core.info(`  Major: "${(_b = entry === null || entry === void 0 ? void 0 : entry.versionMajor) !== null && _b !== void 0 ? _b : ""}"`);
+        core.info(`  Minor: "${(_c = entry === null || entry === void 0 ? void 0 : entry.versionMinor) !== null && _c !== void 0 ? _c : ""}"`);
+        core.info(`  Patch: "${(_d = entry === null || entry === void 0 ? void 0 : entry.versionPatch) !== null && _d !== void 0 ? _d : ""}"`);
+        core.info(`Date: "${(_e = entry === null || entry === void 0 ? void 0 : entry.date) !== null && _e !== void 0 ? _e : ""}"`);
+        core.info(`Status: "${(_f = entry === null || entry === void 0 ? void 0 : entry.status) !== null && _f !== void 0 ? _f : ""}"`);
+        core.info(`Description:\n${(_g = entry === null || entry === void 0 ? void 0 : entry.description) !== null && _g !== void 0 ? _g : ""}\n`);
         core.endGroup();
-        core.setOutput('version', (_e = entry === null || entry === void 0 ? void 0 : entry.version) !== null && _e !== void 0 ? _e : "");
-        core.setOutput('date', (_f = entry === null || entry === void 0 ? void 0 : entry.date) !== null && _f !== void 0 ? _f : "");
-        core.setOutput('status', (_g = entry === null || entry === void 0 ? void 0 : entry.status) !== null && _g !== void 0 ? _g : "");
-        core.setOutput('description', (_h = entry === null || entry === void 0 ? void 0 : entry.description) !== null && _h !== void 0 ? _h : "");
+        core.setOutput('version', (_h = entry === null || entry === void 0 ? void 0 : entry.version) !== null && _h !== void 0 ? _h : "");
+        core.setOutput('versionMajor', (_j = entry === null || entry === void 0 ? void 0 : entry.versionMajor) !== null && _j !== void 0 ? _j : "");
+        core.setOutput('versionMinor', (_k = entry === null || entry === void 0 ? void 0 : entry.versionMinor) !== null && _k !== void 0 ? _k : "");
+        core.setOutput('versionPatch', (_l = entry === null || entry === void 0 ? void 0 : entry.versionPatch) !== null && _l !== void 0 ? _l : "");
+        core.setOutput('date', (_m = entry === null || entry === void 0 ? void 0 : entry.date) !== null && _m !== void 0 ? _m : "");
+        core.setOutput('status', (_o = entry === null || entry === void 0 ? void 0 : entry.status) !== null && _o !== void 0 ? _o : "");
+        core.setOutput('description', (_p = entry === null || entry === void 0 ? void 0 : entry.description) !== null && _p !== void 0 ? _p : "");
     });
 }
 function main() {

@@ -5,6 +5,7 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
+    if: "!startsWith(github.event.head_commit.message, 'Publish dist')"
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -13,10 +14,10 @@ jobs:
       - name: Build
         run: npm run ci
       - name: Publish coverage
-        if: ${{ github.ref == 'refs/heads/master' }}
+        if: github.ref == 'refs/heads/master'
         run: npm run coveralls
       - name: Publish dist
-        if: ${{ github.ref == 'refs/heads/master' }}
+        if: github.ref == 'refs/heads/master'
         shell: bash
         env:
           GITHUB_ACTOR: ${{ github.actor }}
@@ -26,6 +27,7 @@ jobs:
           https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
   test:
     runs-on: ubuntu-latest
+    if: "startsWith(github.event.head_commit.message, 'Publish dist')"
     steps:
       - name: Checkout
         uses: actions/checkout@v2

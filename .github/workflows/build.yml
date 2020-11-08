@@ -37,7 +37,7 @@ jobs:
         if: ${{ github.ref == 'refs/heads/master' }}
         shell: bash
         run: |
-          if git diff-index --quiet HEAD; then
+          if [ -n "$(git status --porcelain)" ]; then
             git config user.name "Coditory CI"
             git config user.email "Coditory CI <admin@coditory.com>"
             git add -A

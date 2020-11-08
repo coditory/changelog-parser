@@ -5,32 +5,17 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
-    if: "!startsWith(github.event.head_commit.message, 'Publish dist')"
     steps:
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
       - name: Checkout
         uses: actions/checkout@v2
       - name: Install dependencies
         run: npm install
       - name: Build
         run: npm run ci
-      - name: Publish coverage
-        if: github.ref == 'refs/heads/master'
-        run: npm run coveralls
-      - name: Publish dist
-        if: github.ref == 'refs/heads/master'
-        shell: bash
-        env:
-          GITHUB_ACTOR: ${{ github.actor }}
-          GITHUB_TOKEN: ${{ github.token }}
-        run: |
-          git commit -am "Publish dist" -m "[ci-skip]"
-          https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
-  test:
-    runs-on: ubuntu-latest
-    if: "startsWith(github.event.head_commit.message, 'Publish dist')"
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
       - name: Parse changelog
         uses: ./
         id: changelog
@@ -40,3 +25,16 @@ jobs:
           echo "Date: ${{ steps.changelog.outputs.date }}"
           echo "Status: ${{ steps.changelog.outputs.status }}"
           echo "Description: ${{ steps.changelog.outputs.description }}"
+      - name: Publish coverage
+        if: ${{ github.ref == 'refs/heads/master' }}
+        run: npm run coveralls
+      - name: Publish dist
+        if: ${{ github.ref == 'refs/heads/master' }}
+        shell: bash
+        env:
+          GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          git commit \
+            -am "Publish dist" -m "[ci-skip]" \
+            https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git

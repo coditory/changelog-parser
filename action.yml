@@ -23,4 +23,4 @@ outputs:
     description: 'Description from the chnagelog entry'
 runs:
   using: 'node12'
-  main: 'index.js'
+  main: 'build/dist/index.js'

@@ -17,6 +17,7 @@ jobs:
         id: changelog
       - name: Display changelog
         run: |
+          echo "Latest changelog entry:"
           echo "Version: \"${{ steps.changelog.outputs.version }}\""
           echo "Date: \"${{ steps.changelog.outputs.date }}\""
           echo "Status: \"${{ steps.changelog.outputs.status }}\""

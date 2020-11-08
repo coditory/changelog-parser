@@ -19,6 +19,9 @@ jobs:
         run: |
           echo "Latest changelog entry:"
           echo "Version: \"${{ steps.changelog.outputs.version }}\""
+          echo "  Major: \"${{ steps.changelog.outputs.versionMajor }}\""
+          echo "  Minor: \"${{ steps.changelog.outputs.versionMinor }}\""
+          echo "  Patch: \"${{ steps.changelog.outputs.versionPatch }}\""
           echo "Date: \"${{ steps.changelog.outputs.date }}\""
           echo "Status: \"${{ steps.changelog.outputs.status }}\""
           echo "Description: \"${{ steps.changelog.outputs.description }}\""
@@ -39,5 +42,28 @@ jobs:
             git commit -a -m "Publish dist" -m "[ci-skip]"
             git push origin master
           else
-            echo "Nothing to commit. Dist is up to date."
+            echo "Nothing to commit. Directory is up to date: ./build/dist"
           fi
+      - name: Get last version from tag
+        id: lasttag
+        shell: bash
+        run: echo ::set-output name=version::$(git describe --abbrev=0 --tags --match 'v[0-9]*' | cut -c2-)
+      - name: Release
+        if: "github.ref == 'refs/heads/master' && steps.changelog.outputs.status == 'released' && steps.changelog.outputs.version != steps.lasttag.outputs.version"
+        shell: bash
+        env:
+          RELEASE_VERSION: ${{ steps.changelog.outputs.version }}
+          RELEASE_VERSION_MAJOR: ${{ steps.changelog.outputs.versionMajor }}
+        run: |
+          git tag -f "v${RELEASE_VERSION}"
+          git tag -f "v${RELEASE_VERSION_MAJOR}"
+          git push origin --tags
+      - name: GitHub Release
+        if: "github.ref == 'refs/heads/master' && steps.changelog.outputs.status == 'released' && steps.changelog.outputs.version != steps.lasttag.outputs.version"
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          body: ${{ steps.changelog.outputs.description }}
+          tag_name: v${{ steps.changelog.outputs.version }}
+          release_name: Release v${{ steps.changelog.outputs.version }}

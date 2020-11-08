@@ -14,7 +14,10 @@
   - When version is defined but not available in the changelog then an error is raised.
 
 ### Outputs
-- `version` - Version from the changelog entry. Example: `2.0.0`.
+- `version` - Version from the changelog entry. Example: `2.1.0`.
+- `versionMajor` - Major version part. Example: `2` for version `2.1.0`.
+- `versionMinor` - Minor version part. Example: `1` for version `2.1.0`.
+- `versionPatch` - Patch version part. Example: `0` for version `2.1.0`.
 - `date` - Release date from the changelog entry. Example: `2020-08-22`.
 - `status` - Status from the changelog entry. One of: (`prereleased`, `released`, `unreleased`).
 - `description` - Content from the changelog entry found.
@@ -50,6 +53,9 @@ Some description
 Action executed with no inputs
 ```bash
 version: "0.2.0"
+versionMajor: "0"
+versionMinor: "2"
+versionPatch: "0"
 date: "2020-11-10"
 status: "released"
 description: "### Added\n- Important feature"
@@ -58,6 +64,9 @@ description: "### Added\n- Important feature"
 Action executed with input `version: 0.1.1`
 ```bash
 version: "0.1.1"
+versionMajor: "0"
+versionMinor: "1"
+versionPatch: "1"
 date: "2020-10-10"
 status: "released"
 description: "### Changed\n- Fixed small bug"
@@ -113,7 +122,7 @@ jobs:
           release_name: Release ${{ steps.changelog.outputs.version }}
 ```
 
-### Create [GitHub Release](https://docs.github.com/en/free-pro-team@latest/github/administering-a-repository/managing-releases-in-a-repository) on a new tag
+### Create GitHub Release when new tag is pushed
 
 This action simply creates a [GitHub Release](https://docs.github.com/en/free-pro-team@latest/github/administering-a-repository/managing-releases-in-a-repository) on a newly pushed tag matching `v*`.
 

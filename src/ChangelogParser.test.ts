@@ -48,6 +48,9 @@ test("should parse sample CHANGELOG", () => {
     },
     {
       version: '0.0.4',
+      versionMajor: '0',
+      versionMinor: '0',
+      versionPatch: '4',
       status: 'release',
       date: '2014-08-09',
       description: '### Added\n' +
@@ -61,6 +64,9 @@ test("should parse sample CHANGELOG", () => {
     },
     {
       version: '0.0.1',
+      versionMajor: '0',
+      versionMinor: '0',
+      versionPatch: '1',
       status: 'release',
       date: '2014-07-10',
       description: '### Added\n' +
@@ -68,6 +74,9 @@ test("should parse sample CHANGELOG", () => {
     },
     {
       version: '0.0.1-SNAPSHOT',
+      versionMajor: '0',
+      versionMinor: '0',
+      versionPatch: '1',
       status: 'prerelease',
       date: '2014-07-09',
       description: '### Added\n- First file'
@@ -86,12 +95,18 @@ test("should parse CHANGELOG with inlined version links", () => {
   expect(changelog.getEntries()).toStrictEqual([
     {
       version: '0.0.1-SNAPSHOT',
+      versionMajor: '0',
+      versionMinor: '0',
+      versionPatch: '1',
       status: 'prerelease',
       date: '2014-07-09',
       description: 'inlined link with date'
     },
     {
       version: '0.0.1',
+      versionMajor: '0',
+      versionMinor: '0',
+      versionPatch: '1',
       status: 'release',
       date: undefined,
       description: 'inlined link without date'
@@ -109,12 +124,18 @@ test("should parse CHANGELOG with version as link label", () => {
   expect(changelog.getEntries()).toStrictEqual([
     {
       version: '0.0.1-SNAPSHOT',
+      versionMajor: '0',
+      versionMinor: '0',
+      versionPatch: '1',
       status: 'prerelease',
       date: '2014-07-09',
       description: 'link with date'
     },
     {
       version: '0.0.1',
+      versionMajor: '0',
+      versionMinor: '0',
+      versionPatch: '1',
       status: 'release',
       date: undefined,
       description: 'link without date'
@@ -132,12 +153,18 @@ test("should parse CHANGELOG with out version links", () => {
   expect(changelog.getEntries()).toStrictEqual([
     {
       version: '0.0.1-SNAPSHOT',
+      versionMajor: '0',
+      versionMinor: '0',
+      versionPatch: '1',
       status: 'prerelease',
       date: '2014-07-09',
       description: 'link with date'
     },
     {
       version: '0.0.1',
+      versionMajor: '0',
+      versionMinor: '0',
+      versionPatch: '1',
       status: 'release',
       date: undefined,
       description: 'link without date'
@@ -155,12 +182,18 @@ test("should parse CHANGELOG without dates", () => {
   expect(changelog.getEntries()).toStrictEqual([
     {
       version: '0.0.1-SNAPSHOT',
+      versionMajor: '0',
+      versionMinor: '0',
+      versionPatch: '1',
       status: 'prerelease',
       date: undefined,
       description: 'link with date'
     },
     {
       version: '0.0.1',
+      versionMajor: '0',
+      versionMinor: '0',
+      versionPatch: '1',
       status: 'release',
       date: undefined,
       description: 'link without date'
@@ -186,6 +219,9 @@ test("should parse CHANGELOG without dates", () => {
         },
         {
           version: '0.0.1',
+          versionMajor: '0',
+          versionMinor: '0',
+          versionPatch: '1',
           status: 'release',
           date: undefined,
           description: 'released feature'

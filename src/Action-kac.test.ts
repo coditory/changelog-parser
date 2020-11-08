@@ -156,6 +156,9 @@ test('should return latest released entry', async () => {
   const entry = await action.run();
   expect(entry).toStrictEqual({
     version: '1.0.0',
+    versionMajor: '1',
+    versionMinor: '0',
+    versionPatch: '0',
     status: 'release',
     date: '2017-06-20',
     description: '### Added\n' +
@@ -199,6 +202,9 @@ test('should return specific entry', async () => {
   const entry = await action.run("0.0.7");
   expect(entry).toStrictEqual({
     version: '0.0.7',
+    versionMajor: '0',
+    versionMinor: '0',
+    versionPatch: '7',
     status: 'release',
     date: '2015-02-16',
     description: '### Added\n' +

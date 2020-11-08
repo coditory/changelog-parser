@@ -2,7 +2,7 @@ import { Changelog, ChangelogEntry } from "./Changelog";
 
 export class ChangelogParser {
   // https://regexr.com/5fp7a
-  private static readonly realesedVersionRegex = /^\[? *([0-9]+\.[0-9]+\.[0-9]+)((?:-+.)[0-9A-Za-z-.+_]+)?(?: *\])?(?: *\( *[^)]* *\))?(?: +- +([0-9-]+)?)?/;
+  private static readonly realesedVersionRegex = /^\[? *(([0-9]+)\.([0-9]+)\.([0-9]+))((?:-+.)[0-9A-Za-z-.+_]+)?(?: *\])?(?: *\( *[^)]* *\))?(?: +- +([0-9-]+)?)?/;
   private static readonly unreleasedHeaderRegex = /^\[? *unreleased *\]?(?: *\( *[^)]* *\))?/i;
   private static readonly linkLabelRegex = /^\[ *[^\]]+ *\]:.+/;
 
@@ -51,12 +51,18 @@ export class ChangelogParser {
     const realesedHeaderMatch = header.match(ChangelogParser.realesedVersionRegex);
     if (realesedHeaderMatch != null) {
       const version = realesedHeaderMatch[1];
-      const suffix = realesedHeaderMatch[2] ?? '';
-      const date = realesedHeaderMatch[3];
-      const status = suffix?.startsWith('-') === true
+      const versionMajor = realesedHeaderMatch[2];
+      const versionMinor = realesedHeaderMatch[3];
+      const versionPatch = realesedHeaderMatch[4];
+      const versionSuffix = realesedHeaderMatch[5] ?? '';
+      const date = realesedHeaderMatch[6];
+      const status = versionSuffix?.startsWith('-') === true
         ? 'prerelease'
         : 'release';
-      return { version: version + suffix, status, date, description };
+      return {
+        version: version + versionSuffix,
+        versionMajor, versionMinor, versionPatch, status, date, description
+      };
     }
     const unreleasedHeaderMatch = header.match(ChangelogParser.unreleasedHeaderRegex);
     if (unreleasedHeaderMatch != null) {

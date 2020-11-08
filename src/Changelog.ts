@@ -36,6 +36,9 @@ export class Changelog {
 
 export interface ChangelogEntry {
   version: string;
+  versionMajor?: string;
+  versionMinor?: string;
+  versionPatch?: string;
   status: string;
   date?: string;
   description: string;

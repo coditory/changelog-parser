@@ -7,6 +7,10 @@ async function run(): Promise<void> {
 
   core.startGroup('Parse CHANGELOG');
   const entry = await new Action().run(version, path);
+  core.info(`Version: "${entry?.version ?? ""}"`);
+  core.info(`Date: "${entry?.date ?? ""}"`);
+  core.info(`Status: "${entry?.status ?? ""}"`);
+  core.info(`Description:\n${entry?.description ?? ""}\n`);
   core.endGroup();
 
   core.setOutput('version', entry?.version ?? "");

@@ -1,8 +1,8 @@
-# changelog-parser
+# Changelog Parser - GitHub Action
 [![GitHub Action Build](https://github.com/coditory/changelog-parser-action/workflows/Build/badge.svg)](https://github.com/coditory/changelog-parser-action/actions?query=workflow%3ABuild+branch%3Amaster)
 [![Coverage Status](https://coveralls.io/repos/github/coditory/changelog-parser-action/badge.svg?branch=master)](https://coveralls.io/github/coditory/changelog-parser-action?branch=master)
 
-> A GitHub action that parses `CHANGELOG.md` written in [Keep a Changelog format](https://github.com/olivierlacan/keep-a-changelog).
+> A [GitHub action](https://github.com/marketplace/actions/changelog-parser) that parses `CHANGELOG.md` written in [Keep a Changelog format](https://github.com/olivierlacan/keep-a-changelog).
 
 ## Usage
 

@@ -49,7 +49,7 @@ jobs:
         shell: bash
         run: echo ::set-output name=version::$(git describe --abbrev=0 --tags --match 'v[0-9]*' | cut -c2-)
       - name: Release
-        if: "github.ref == 'refs/heads/master' && steps.changelog.outputs.status == 'released' && steps.changelog.outputs.version != steps.lasttag.outputs.version"
+        if: "github.ref == 'refs/heads/master' && steps.changelog.outputs.status == 'release' && steps.changelog.outputs.version != steps.lasttag.outputs.version"
         shell: bash
         env:
           RELEASE_VERSION: ${{ steps.changelog.outputs.version }}
@@ -59,7 +59,7 @@ jobs:
           git tag -f "v${RELEASE_VERSION_MAJOR}"
           git push origin --tags
       - name: GitHub Release
-        if: "github.ref == 'refs/heads/master' && steps.changelog.outputs.status == 'released' && steps.changelog.outputs.version != steps.lasttag.outputs.version"
+        if: "github.ref == 'refs/heads/master' && steps.changelog.outputs.status == 'release' && steps.changelog.outputs.version != steps.lasttag.outputs.version"
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

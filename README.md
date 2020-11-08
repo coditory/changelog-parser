@@ -19,7 +19,7 @@
 - `versionMinor` - Minor version part. Example: `1` for version `2.1.0`.
 - `versionPatch` - Patch version part. Example: `0` for version `2.1.0`.
 - `date` - Release date from the changelog entry. Example: `2020-08-22`.
-- `status` - Status from the changelog entry. One of: (`prereleased`, `released`, `unreleased`).
+- `status` - Status from the changelog entry. One of: (`prerelease`, `release`, `unreleased`).
 - `description` - Content from the changelog entry found.
 
 ### Example
@@ -57,7 +57,7 @@ versionMajor: "0"
 versionMinor: "2"
 versionPatch: "0"
 date: "2020-11-10"
-status: "released"
+status: "release"
 description: "### Added\n- Important feature"
 ```
 
@@ -68,7 +68,7 @@ versionMajor: "0"
 versionMinor: "1"
 versionPatch: "1"
 date: "2020-10-10"
-status: "released"
+status: "release"
 description: "### Changed\n- Fixed small bug"
 ```
 

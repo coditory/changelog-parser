@@ -55,6 +55,8 @@ jobs:
           RELEASE_VERSION: ${{ steps.changelog.outputs.version }}
           RELEASE_VERSION_MAJOR: ${{ steps.changelog.outputs.versionMajor }}
         run: |
+          git push origin :refs/tags/v${RELEASE_VERSION}
+          git push origin :refs/tags/v${RELEASE_VERSION_MAJOR}
           git tag -f "v${RELEASE_VERSION}"
           git tag -f "v${RELEASE_VERSION_MAJOR}"
           git push origin --tags

@@ -5,15 +5,15 @@ export class Changelog {
     this.entriesByVersion = entries.reduce(
       (acc, value) => (acc[value.version] = value, acc),
       {} as { [version: string]: ChangelogEntry }
-    )
+    );
   }
 
   getByVersion(version: string): ChangelogEntry {
     const entry = this.entriesByVersion[version];
     if (entry == null) {
-      throw new Error("Could not find CHANGELOG entry for version: " + version);
+      throw new Error(`Could not find CHANGELOG entry for version: ${version}`);
     }
-    return entry
+    return entry;
   }
 
   getLatestVersion(): ChangelogEntry|undefined {
@@ -35,8 +35,8 @@ export class Changelog {
 }
 
 export interface ChangelogEntry {
-  version: string,
-  status: string,
-  date?: string,
-  description: string
+  version: string;
+  status: string;
+  date?: string;
+  description: string;
 }

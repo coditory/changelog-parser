@@ -1,4 +1,4 @@
-import { promises as fs } from 'fs'
+import { promises as fs } from 'fs';
 import * as path from 'path';
 
 export class ChangelogReader {
@@ -11,7 +11,7 @@ export class ChangelogReader {
 
   constructor(private readonly basedir: string = "./") {}
 
-  public async readChangelog(filePath: string|undefined): Promise<string> {
+  async readChangelog(filePath: string|undefined): Promise<string> {
     if (filePath === undefined) {
       return this.findAndReadChangelog();
     }
@@ -27,16 +27,16 @@ export class ChangelogReader {
     let content = null;
     for (let i = 0; i < locations.length && content == null; i++) {
       const location = locations[i];
-      content = await this.readFile(location)
+      content = await this.readFile(location);
     }
     if (content == null) {
-      throw new Error(`Could not find CHANGELOG file. Searched in locations: ` + locations);
+      throw new Error(`Could not find CHANGELOG file. Searched in locations: ${locations.join(', ')}`);
     }
     return content;
   }
 
-  private readFile(filePath: string): Promise<string|undefined> {
+  private async readFile(filePath: string): Promise<string|undefined> {
     return fs.readFile(path.join(this.basedir, filePath), 'utf8')
-      .catch(_ => undefined);
+      .catch(() => undefined);
   }
 }

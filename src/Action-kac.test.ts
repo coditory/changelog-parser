@@ -1,6 +1,6 @@
-import * as path from 'path'
-import * as os from 'os'
-import { promises as fs } from 'fs'
+import * as path from 'path';
+import * as os from 'os';
+import { promises as fs } from 'fs';
 import { Action } from './Action';
 
 // simplified changelog from https://keepachangelog.com/en/1.0.0/
@@ -135,10 +135,10 @@ notable changes.
 [0.0.3]: https://github.com/olivierlacan/keep-a-changelog/compare/v0.0.2...v0.0.3
 [0.0.2]: https://github.com/olivierlacan/keep-a-changelog/compare/v0.0.1...v0.0.2
 [0.0.1]: https://github.com/olivierlacan/keep-a-changelog/releases/tag/v0.0.1
-`
+`;
 
-let tmpdir: string
-let action: Action
+let tmpdir: string;
+let action: Action;
 
 beforeAll(async () => {
   tmpdir = await fs.mkdtemp(path.join(os.tmpdir(), "changlog-parser-test"));
@@ -148,12 +148,12 @@ beforeAll(async () => {
 
 afterAll(async () => {
   if (tmpdir) {
-    await fs.rmdir(tmpdir, { recursive: true })
+    await fs.rmdir(tmpdir, { recursive: true });
   }
 });
 
 test('should return latest released entry', async () => {
-  const entry = await action.run()
+  const entry = await action.run();
   expect(entry).toStrictEqual({
     version: '1.0.0',
     status: 'release',
@@ -182,21 +182,21 @@ test('should return latest released entry', async () => {
       '\n' +
       '### Removed\n' +
       '- Section about "changelog" vs "CHANGELOG".'
-  })
-})
+  });
+});
 
 test('should return unreleased entry', async () => {
-  const entry = await action.run("unreleased")
+  const entry = await action.run("unreleased");
   expect(entry).toStrictEqual({
     version: 'unreleased',
     status: 'unreleased',
     date: undefined,
     description: '- Unreleased feature'
-  })
-})
+  });
+});
 
 test('should return specific entry', async () => {
-  const entry = await action.run("0.0.7")
+  const entry = await action.run("0.0.7");
   expect(entry).toStrictEqual({
     version: '0.0.7',
     status: 'release',
@@ -209,5 +209,5 @@ test('should return specific entry', async () => {
       '\n' +
       '### Fixed\n' +
       '- Fix Markdown links to tag comparison URL with footnote-style links.'
-  })
-})
+  });
+});

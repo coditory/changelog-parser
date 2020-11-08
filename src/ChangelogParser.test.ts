@@ -1,4 +1,4 @@
-import { ChangelogParser } from "./ChangelogParser"
+import { ChangelogParser } from "./ChangelogParser";
 
 const sampleChangelog = `
 # Changelog
@@ -33,7 +33,7 @@ logging of changes.
 [Unreleased]: https://github.com/olivierlacan/keep-a-changelog/compare/v1.0.0...HEAD
 [1.0.0]: https://github.com/olivierlacan/keep-a-changelog/compare/v0.3.0...v1.0.0
 [0.3.0]: https://github.com/olivierlacan/keep-a-changelog/compare/v0.2.0...v0.3.0
-`
+`;
 
 test("should parse sample CHANGELOG", () => {
   const changelog = ChangelogParser.parseChangelog(sampleChangelog);
@@ -73,7 +73,7 @@ test("should parse sample CHANGELOG", () => {
       description: '### Added\n- First file'
     }
   ]);
-})
+});
 
 
 test("should parse CHANGELOG with inlined version links", () => {
@@ -97,9 +97,9 @@ test("should parse CHANGELOG with inlined version links", () => {
       description: 'inlined link without date'
     }
   ]);
-})
+});
 
-test("should parse CHANGELOG with version as link labels", () => {
+test("should parse CHANGELOG with version as link label", () => {
   const changelog = ChangelogParser.parseChangelog([
     "## [0.0.1-SNAPSHOT] - 2014-07-09",
     "link with date",
@@ -120,7 +120,7 @@ test("should parse CHANGELOG with version as link labels", () => {
       description: 'link without date'
     }
   ]);
-})
+});
 
 test("should parse CHANGELOG with out version links", () => {
   const changelog = ChangelogParser.parseChangelog([
@@ -143,7 +143,7 @@ test("should parse CHANGELOG with out version links", () => {
       description: 'link without date'
     }
   ]);
-})
+});
 
 test("should parse CHANGELOG without dates", () => {
   const changelog = ChangelogParser.parseChangelog([
@@ -191,8 +191,8 @@ test("should parse CHANGELOG without dates", () => {
           description: 'released feature'
         }
       ]);
-    })
-  })
+    });
+  });
 
 test('should throw error on undefined entry header', async () => {
   expect.assertions(1);
@@ -201,4 +201,29 @@ test('should throw error on undefined entry header', async () => {
   } catch (e) {
     expect(e.message).toEqual("Could not parse CHANGELOG entry:\nsomething");
   }
-})
+});
+
+test('should return empty entries when changelog is empty', async () => {
+  const changelog = ChangelogParser.parseChangelog("");
+  expect(changelog.getEntries()).toStrictEqual([]);
+});
+
+test('should return empty entries when changelog has no version headers', async () => {
+  const changelog = ChangelogParser.parseChangelog([
+    "# Changelog",
+    "Some notice"
+  ].join("\n"));
+  expect(changelog.getEntries()).toStrictEqual([]);
+});
+
+test('should throw error on duplicated versions', async () => {
+  expect.assertions(1);
+  try {
+    ChangelogParser.parseChangelog([
+      "## 1.0.0",
+      "## 1.0.0 - 2020.10.10",
+    ].join("\n"));
+  } catch (e) {
+    expect(e.message).toEqual("Duplicated version in changelog: 1.0.0");
+  }
+});

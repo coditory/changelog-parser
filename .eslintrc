@@ -3,17 +3,16 @@
   "plugins": ["jest", "@typescript-eslint"],
   "extends": [
     "eslint:recommended",
-    "plugin:@typescript-eslint/eslint-recommended",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:github/recommended"
+    "plugin:@typescript-eslint/recommended"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": 9,
     "sourceType": "module",
-    "project": "./tsconfig.json"
+    "project": "./tsconfig-all.json"
   },
   "rules": {
+    "semi": ["error", "always", { "omitLastInOneLineBlock": true}],
     "eslint-comments/no-use": "off",
     "import/no-namespace": "off",
     "no-unused-vars": "off",
@@ -30,7 +29,6 @@
     "@typescript-eslint/no-array-constructor": "error",
     "@typescript-eslint/no-empty-interface": "error",
     "@typescript-eslint/no-explicit-any": "error",
-    "@typescript-eslint/no-extraneous-class": "error",
     "@typescript-eslint/no-for-in-array": "error",
     "@typescript-eslint/no-inferrable-types": "error",
     "@typescript-eslint/no-misused-new": "error",
@@ -47,8 +45,6 @@
     "@typescript-eslint/promise-function-async": "error",
     "@typescript-eslint/require-array-sort-compare": "error",
     "@typescript-eslint/restrict-plus-operands": "error",
-    "semi": "off",
-    "@typescript-eslint/semi": ["error", "never"],
     "@typescript-eslint/type-annotation-spacing": "error",
     "@typescript-eslint/unbound-method": "error"
   },

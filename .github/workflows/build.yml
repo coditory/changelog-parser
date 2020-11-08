@@ -35,6 +35,7 @@ jobs:
           if git diff-index --quiet HEAD; then
             git config user.name "Coditory CI"
             git config user.email "Coditory CI <admin@coditory.com>"
+            git add -A
             git commit -a -m "Publish dist" -m "[ci-skip]"
             git push origin master
           else

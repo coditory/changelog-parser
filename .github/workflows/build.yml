@@ -17,10 +17,10 @@ jobs:
         id: changelog
       - name: Display changelog
         run: |
-          echo "Version: ${{ steps.changelog.outputs.version }}"
-          echo "Date: ${{ steps.changelog.outputs.date }}"
-          echo "Status: ${{ steps.changelog.outputs.status }}"
-          echo "Description: ${{ steps.changelog.outputs.description }}"
+          echo "Version: \"${{ steps.changelog.outputs.version }}\""
+          echo "Date: \"${{ steps.changelog.outputs.date }}\""
+          echo "Status: \"${{ steps.changelog.outputs.status }}\""
+          echo "Description: \"${{ steps.changelog.outputs.description }}\""
       - name: Publish coverage
         if: ${{ github.ref == 'refs/heads/master' }}
         run: npm run coveralls

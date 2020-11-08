@@ -40,7 +40,7 @@ test('should throw error on missing CHANGELOG in specific loaction', async () =>
 });
 
 test('should load CHANGELOG from default location', async () => {
-  writeChangelog([
+  await writeChangelog([
     "## 1.0.0",
   ]);
   const entry = await action.run();
@@ -48,7 +48,7 @@ test('should load CHANGELOG from default location', async () => {
 });
 
 test('should load CHANGELOG from specific location', async () => {
-  writeChangelog([
+  await writeChangelog([
     "## 2.0.0",
   ], "CHANGELOGGG.md");
   const entry = await action.run(undefined, "CHANGELOGGG.md");
@@ -56,7 +56,7 @@ test('should load CHANGELOG from specific location', async () => {
 });
 
 test('should read latest released version from CHANGELOG using entry order', async () => {
-  writeChangelog([
+  await writeChangelog([
     "## unreleased",
     "## 2.0.0",
     "## 3.0.0",
@@ -67,14 +67,14 @@ test('should read latest released version from CHANGELOG using entry order', asy
 });
 
 test('should return empty entry if no version was specified and changelog is empty', async () => {
-  writeChangelog([""]);
+  await writeChangelog([""]);
   const entry = await action.run();
   expect(entry).toBeUndefined();
 });
 
 test('should throw error on missing entry', async () => {
   expect.assertions(1);
-  writeChangelog([""]);
+  await writeChangelog([""]);
   try {
     await action.run("0.0.1");
   } catch (e) {

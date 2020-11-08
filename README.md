@@ -93,6 +93,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
       - name: Set up JDK 11
         uses: actions/setup-java@v1
         with:
@@ -102,7 +104,7 @@ jobs:
       - name: Get last version from tag
         id: lasttag
         shell: bash
-        run: echo ::set-output name=version::$(git describe --abbrev=0 --tags --match 'v[0-9]*' | cut -c2-)
+        run: echo ::set-output name=version::$(git describe --abbrev=0 --tags --match 'v[0-9]*\.[0-9]*\.[0-9]*' | cut -c2-)
       - name: Parse Changelog Entry
         id: changelog
         uses: coditory/changelog-parser@v1

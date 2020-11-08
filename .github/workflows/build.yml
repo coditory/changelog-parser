@@ -69,3 +69,16 @@ jobs:
           body: ${{ steps.changelog.outputs.description }}
           tag_name: v${{ steps.changelog.outputs.version }}
           release_name: Release v${{ steps.changelog.outputs.version }}
+          draft: false
+          prerelease: false
+      - name: GitHub Release Major
+        if: "github.ref == 'refs/heads/master' && steps.changelog.outputs.status == 'release' && steps.changelog.outputs.version != steps.lasttag.outputs.version"
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          body: "Major Release v${{ steps.changelog.outputs.versionMajor }}"
+          tag_name: v${{ steps.changelog.outputs.versionMajor }}
+          release_name: Release v${{ steps.changelog.outputs.versionMajor }}
+          draft: false
+          prerelease: false
